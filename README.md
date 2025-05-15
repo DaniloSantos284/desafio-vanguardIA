@@ -50,10 +50,10 @@ current.temp_c	Temperatura em Celsius
 current.condition.text	Descrição da condição climática
 current.condition.icon	Ícone representativo do clima (opcional)
 
-🗂️ Estrutura do Projeto
-graphql
-Copiar
-Editar
+🗂️ Estrutura do Projeto <br>
+graphql <br>
+Copiar <br>
+Editar <br>
 /
 ├── pages/
 │   ├── index.tsx           # Formulário principal
