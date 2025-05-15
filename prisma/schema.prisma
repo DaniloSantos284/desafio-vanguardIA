@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql" // ou "mysql", "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Weather {
+  id        Int      @id @default(autoincrement())
+  city      String
+  temp      Float
+  createdAt DateTime @default(now())
+}
+
+DATABASE_URL="7525828ff1ec1987fe9eb4f26256cefa"
