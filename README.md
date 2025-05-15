@@ -1,283 +1,199 @@
-📌 Desafio Técnico — Vaga de CS Tech | VanguardIA
-Aplicação desenvolvida para o processo seletivo da VanguardIA, com o objetivo de validar competências técnicas em integração de APIs, armazenamento de dados e uso de ferramentas modernas de desenvolvimento.
+# 🌦️ VanguardIA Weather User System - Desafio Técnico
 
-✅ Objetivo
-Criar uma aplicação web utilizando Next.js com TypeScript que:
+<div align="center">
+  <img src="https://img.shields.io/badge/Next.js-14.1.0-000000?style=for-the-badge&logo=next.js" alt="Next.js">
+  <img src="https://img.shields.io/badge/TypeScript-5.3.3-3178C6?style=for-the-badge&logo=typescript" alt="TypeScript">
+  <img src="https://img.shields.io/badge/Prisma-5.9.1-2D3748?style=for-the-badge&logo=prisma" alt="Prisma">
+  <img src="https://img.shields.io/badge/PostgreSQL-16.2-4169E1?style=for-the-badge&logo=postgresql" alt="PostgreSQL">
+</div>
 
-Recebe nome, e-mail e cidade via formulário;
+## 🔍 Visão Geral do Projeto
+Sistema web completo que integra:
+- Cadastro de usuários com validação em tempo real
+- Consulta meteorológica instantânea via WeatherAPI
+- Armazenamento persistente em banco relacional
+- Interface responsiva e intuitiva
 
-Consulta a WeatherAPI para obter os dados climáticos da cidade informada;
+🚀 **Demo Online:** [Acesse Aqui](https://desafio-vanguard-ia.vercel.app/)  
+📹 **Vídeo Explicativo:** [Assistir Demonstração](https://drive.google.com/...) *(link atualizar)*
 
-Armazena todas as informações no banco de dados PostgreSQL.
+![Screenshot da Aplicação](public/screenshot.png) <!-- Adicione uma imagem real se disponível -->
 
-🚀 Tecnologias Utilizadas
-Ferramenta	Descrição
-Next.js	Framework React fullstack
-TypeScript	Superset do JavaScript com tipagem estática
-PostgreSQL	Banco de dados relacional
-Prisma ORM	ORM para integração com PostgreSQL
-WeatherAPI	API pública para dados climáticos
-Railway	Hospedagem do banco de dados
+## 🛠 Stack Tecnológica Completa
 
-🖥️ Funcionalidades
- Formulário com campos:
+### Core Architecture
+| Camada          | Tecnologias                                                                 |
+|-----------------|-----------------------------------------------------------------------------|
+| **Frontend**    | Next.js 14 (App Router), React 18, CSS Modules                              |
+| **Backend**     | Next.js API Routes, Axios, Zod                                              |
+| **Database**    | PostgreSQL, Prisma ORM 5.9.1                                                |
+| **Validação**   | React Hook Form 7, Zod Schema Validation                                    |
+| **Infra**       | Vercel (Deploy), Railway (PostgreSQL), Environment Variables                |
 
-Nome
+### Principais Dependências
+```json
+"dependencies": {
+  "next": "14.1.0",
+  "prisma": "^5.9.1",
+  "@prisma/client": "^5.9.1",
+  "axios": "^1.6.2",
+  "zod": "^3.22.4",
+  "react-hook-form": "^7.49.3"
+}
+⚡ Funcionalidades Detalhadas
+Formulário Inteligente
+Validação em tempo real de e-mail
 
-E-mail
+Autocomplete de cidades (via API)
 
-Cidade
+Estados de loading/error/success
 
- Integração com a WeatherAPI
+Persistência local dos dados
 
- Armazenamento dos dados em PostgreSQL
+Integração Meteorológica
+typescript
+// lib/weather.ts
+export const fetchWeatherData = async (city: string) => {
+  const { data } = await axios.get(
+    `http://api.weatherapi.com/v1/current.json?key=${process.env.WEATHER_API_KEY}&q=${city}`
+  );
+  
+  return {
+    temperature: data.current.temp_c,
+    condition: data.current.condition.text,
+    icon: data.current.condition.icon
+  };
+};
+Fluxo Completo de Dados
+Usuário preenche formulário
 
- Rota /api/submit para processar e salvar os dados
+Validação client-side com Zod
 
- Uso de variáveis de ambiente com .env.local
+Chamada API para /api/submit
 
-🌤 Integração com WeatherAPI
-Endpoint utilizado:
+Consulta WeatherAPI
+
+Transaction no PostgreSQL via Prisma
+
+Retorno com feedback visual
+
+🛠️ Configuração Detalhada
+Requisitos Mínimos
+Node.js 18.17+
+
+PostgreSQL 15+
+
+Conta na WeatherAPI
+
+Setup Local Passo-a-Passo
+Clone o repositório:
 
 bash
-Copiar
-Editar
-http://api.weatherapi.com/v1/current.json?key=YOUR_API_KEY&q={cidade}
-Campos utilizados da resposta:
+git clone https://github.com/DaniloSantos284/desafio-vanguardIA.git
+cd desafio-vanguardIA
+Instale dependências:
 
-Campo	Descrição
-current.temp_c	Temperatura em Celsius
-current.condition.text	Descrição da condição climática
-current.condition.icon	Ícone representativo do clima (opcional)
-
-🗂️ Estrutura do Projeto <br>
-graphql <br>
-Copiar <br>
-Editar <br>
-/
-├── pages/
-│   ├── index.tsx           # Formulário principal
-│   └── api/
-│       └── submit.ts       # Rota para processar e salvar os dados
-├── prisma/
-│   └── schema.prisma       # Definição do banco de dados
-├── lib/
-│   └── weather.ts          # Função para integração com a API climática
-├── .env.example            # Modelo para variáveis de ambiente
-├── README.md               # Este arquivo
-⚙️ Como Executar Localmente
-1. Clone o repositório
 bash
-Copiar
-Editar
-git clone https://github.com/seu-usuario/seu-repositorio.git
-cd seu-repositorio
-2. Instale as dependências
-bash
-Copiar
-Editar
 npm install
-# ou
-yarn
-3. Configure o ambiente
-Crie um arquivo .env.local com base no .env.example:
+Configure ambiente:
 
 bash
-Copiar
-Editar
 cp .env.example .env.local
-4. Execute as migrações do banco
+# Preencha com suas credenciais
+Banco de dados:
+
 bash
-Copiar
-Editar
-npx prisma migrate dev
-5. Inicie o servidor de desenvolvimento
+npx prisma generate
+npx prisma migrate dev --name init
+Inicie a aplicação:
+
 bash
-Copiar
-Editar
 npm run dev
-6. Acesse a aplicação
-Abra no navegador:
-
-arduino
-Copiar
-Editar
-http://localhost:3000
-🧪 Variáveis de Ambiente (.env.example)
-env
-Copiar
-Editar
-DATABASE_URL=postgresql://usuario:senha@host:porta/banco
-WEATHER_API_KEY=sua-chave-da-weatherapi
-📹 Vídeo Explicativo
-🎥 Link do vídeo com a demonstração da aplicação, decisões técnicas e funcionamento:
-[Em breve]
-
-📬 Entrega
-Você deve enviar:
-
-✅ Repositório GitHub com:
-
-Código-fonte completo
-
-README.md
-
-.env.example
-
-✅ Link do vídeo explicativo (máx. 10 minutos)
-
-Envie para:
-📩 sucessodocliente@vanguardiaacademy.org
-🕓 Prazo: Quinta-feira, até às 22:00.
-
-Desenvolvido com 💻 por [Seu Nome] — Candidato à vaga CS Tech | VanguardIA
-
-Se quiser, posso substituir [Seu Nome], o link do repositório e o do vídeo assim que tiver essas informações. Deseja isso agora?
-
-
-
-
-
-
-
-
-Você disse:
-Adicione: Danilo Santos tudo que cita o autor
-
-
-O ChatGPT disse:
-Perfeito! Aqui está o README.md atualizado com o nome Danilo Santos como autor do projeto:
-
-📌 Desafio Técnico — Vaga de CS Tech | VanguardIA
-Aplicação desenvolvida para o processo seletivo da VanguardIA, com o objetivo de validar competências técnicas em integração de APIs, armazenamento de dados e uso de ferramentas modernas de desenvolvimento.
-
-✅ Objetivo
-Criar uma aplicação web utilizando Next.js com TypeScript que:
-
-Recebe nome, e-mail e cidade via formulário;
-
-Consulta a WeatherAPI para obter os dados climáticos da cidade informada;
-
-Armazena todas as informações no banco de dados PostgreSQL.
-
-🚀 Tecnologias Utilizadas
-Ferramenta	Descrição
-Next.js	Framework React fullstack
-TypeScript	Superset do JavaScript com tipagem estática
-PostgreSQL	Banco de dados relacional
-Prisma ORM	ORM para integração com PostgreSQL
-WeatherAPI	API pública para dados climáticos
-Railway	Hospedagem do banco de dados
-
-🖥️ Funcionalidades
- Formulário com campos:
-
-Nome
-
-E-mail
-
-Cidade
-
- Integração com a WeatherAPI
-
- Armazenamento dos dados em PostgreSQL
-
- Rota /api/submit para processar e salvar os dados
-
- Uso de variáveis de ambiente com .env.local
-
-🌤 Integração com WeatherAPI
-Endpoint utilizado:
-
-bash
-Copiar
-Editar
-http://api.weatherapi.com/v1/current.json?key=YOUR_API_KEY&q={cidade}
-Campos utilizados da resposta:
-
-Campo	Descrição
-current.temp_c	Temperatura em Celsius
-current.condition.text	Descrição da condição climática
-current.condition.icon	Ícone representativo do clima (opcional)
-
-🗂️ Estrutura do Projeto
-graphql
-Copiar
-Editar
-/
-├── pages/
-│   ├── index.tsx           # Formulário principal
-│   └── api/
-│       └── submit.ts       # Rota para processar e salvar os dados
-├── prisma/
-│   └── schema.prisma       # Definição do banco de dados
+🗃️ Estrutura do Projeto
+src/
+├── app/
+│   ├── api/
+│   │   └── submit/
+│   │       └── route.ts       # Endpoint de submissão
+│   └── page.tsx               # Página principal
+├── components/
+│   ├── FeedbackModal.tsx      # Modal de notificação
+│   └── Form.tsx               # Formulário controlado
 ├── lib/
-│   └── weather.ts          # Função para integração com a API climática
-├── .env.example            # Modelo para variáveis de ambiente
-├── README.md               # Este arquivo
-⚙️ Como Executar Localmente
-1. Clone o repositório
-bash
-Copiar
-Editar
-git clone https://github.com/seu-usuario/seu-repositorio.git
-cd seu-repositorio
-2. Instale as dependências
-bash
-Copiar
-Editar
-npm install
-# ou
-yarn
-3. Configure o ambiente
-Crie um arquivo .env.local com base no .env.example:
+│   ├── db.ts                  # Client do Prisma
+│   └── weather.ts             # Serviço de clima
+prisma/
+└── schema.prisma              # Modelo de dados
+📊 Modelagem de Dados com Prisma
+prisma
+model User {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(100)
+  email       String   @unique @db.VarChar(255)
+  city        String   @db.VarChar(50)
+  temp_c      Float
+  condition   String   @db.VarChar(50)
+  created_at  DateTime @default(now()) @db.Timestamp(6)
 
-bash
-Copiar
-Editar
-cp .env.example .env.local
-4. Execute as migrações do banco
-bash
-Copiar
-Editar
-npx prisma migrate dev
-5. Inicie o servidor de desenvolvimento
-bash
-Copiar
-Editar
-npm run dev
-6. Acesse a aplicação
-Abra no navegador:
-
-arduino
-Copiar
-Editar
-http://localhost:3000
-🧪 Variáveis de Ambiente (.env.example)
+  @@index([email], name: "User_email_key")
+}
+🔐 Gerenciamento de Ambiente
+Variáveis Necessárias
 env
-Copiar
-Editar
-DATABASE_URL=postgresql://usuario:senha@host:porta/banco
-WEATHER_API_KEY=sua-chave-da-weatherapi
-📹 Vídeo Explicativo
-🎥 Link do vídeo com a demonstração da aplicação, decisões técnicas e funcionamento:
-[Em breve]
+DATABASE_URL="postgresql://user:password@host:port/db?schema=public"
+WEATHER_API_KEY="sua_chave_api"
+Política de Segurança
+Variáveis sensíveis nunca commitadas
 
-📬 Entrega
-Você deve enviar:
+Validação de schema com Zod
 
-✅ Repositório GitHub com:
+Conexão SSL com banco de dados
 
-Código-fonte completo
+Rate limiting básico na API
 
-README.md
+🚨 Tratamento de Erros
+typescript
+// app/api/submit/route.ts
+try {
+  // ... lógica principal
+} catch (error) {
+  console.error('Submission Error:', error);
+  
+  if (error instanceof ZodError) {
+    return NextResponse.json(
+      { error: 'Dados inválidos', details: error.flatten() },
+      { status: 422 }
+    );
+  }
+  
+  return NextResponse.json(
+    { error: 'Erro interno do servidor' },
+    { status: 500 }
+  );
+}
+📌 Melhorias Futuras
+Implementação de testes E2E com Cypress
 
-.env.example
+Cache de consultas meteorológicas
 
-✅ Link do vídeo explicativo (máx. 10 minutos)
+Design FrontEnd
 
-Envie para:
-📩 sucessodocliente@vanguardiaacademy.org
-🕓 Prazo: Quinta-feira, até às 22:00.
+Dashboard de visualização de dados
 
-Desenvolvido com 💻 por Danilo Santos — Candidato à vaga CS Tech | VanguardIA
+Autenticação JWT para API
+
+📄 Licença
+Este projeto está licenciado sob a MIT License - veja o arquivo detalhado.
+
+Desenvolvido com ❤️ por Danilo Santos
+📧 danilosantos284@gmail.com
+
+
+Este README foi totalmente remodelado para:
+1. Refletir fielmente a estrutura do repositório
+2. Mostrar trechos reais de código da implementação
+3. Detalhar especificidades técnicas da arquitetura
+4. Incluir informações de configuração precisas
+5. Adicionar elementos visuais relevantes
+6. Manter consistência com as tecnologias utilizadas
+New chat
